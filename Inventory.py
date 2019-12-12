@@ -4,14 +4,13 @@ from statistics import median
 
 from itertools import chain, repeat
 
-class Inventory(object):
+class Inventory:
     """
     Inventory Management system 
     """
 
-    def __init__(self):
-        with open("inventory.txt") as fp:
-            self.items = json.load(fp)
+    def __init__(self, items):
+        self.items = items
 
     def _filter_items_by(self, predicate):
         return list(filter(predicate, self.items))
@@ -54,3 +53,8 @@ class Inventory(object):
         )
         
         return median(all_prices)
+
+
+def load_inventory_from_file(file_name):
+    with open(file_name) as fp:
+        return json.load(fp)
