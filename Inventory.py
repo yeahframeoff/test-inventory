@@ -63,3 +63,9 @@ class Inventory:
 def load_inventory_from_file(file_name):
     with open(file_name) as fp:
         return json.load(fp)
+
+if __name__ == "__main__":
+    items = load_inventory_from_file("inventory.txt")
+    inventory = Inventory(items)
+    import code
+    code.interact(local=locals())
