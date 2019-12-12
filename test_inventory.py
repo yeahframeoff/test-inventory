@@ -53,7 +53,11 @@ class TestInventory:
     def test_get_item_inventory(self, empty_inventory):
         assert empty_inventory.get_item_inventory("pc") == []
     
-    def test_get_median_for_category_basic(self):
+    def test_get_median_for_category_with_no_items(self, empty_inventory):
+        with pytest.raises(ValueError):
+            empty_inventory.get_median_for_category(1)
+    
+    def test_get_median_for_category_simple(self):
         items = [
             {
                 "store": 1,
@@ -68,7 +72,7 @@ class TestInventory:
 
         assert inventory.get_median_for_category(1) == 200
     
-    def test_get_median_for_category_intermediate(self):
+    def test_get_median_for_category_advanced(self):
         items = [
             {
                 "store": 1,
@@ -89,4 +93,13 @@ class TestInventory:
         inventory = Inventory(items)
 
         assert inventory.get_median_for_category(1) == 250
+    
+    def test_get_median_for_category_real_world(self, inventory):
+        assert inventory.get_median_for_category(1) == 3.0
+        assert inventory.get_median_for_category(2) == 7.5
+        assert inventory.get_median_for_category(10) == 50.0
+        assert inventory.get_median_for_category(120) == 200.0
+
+        with pytest.raises(ValueError):
+            inventory.get_median_for_category(3)
     

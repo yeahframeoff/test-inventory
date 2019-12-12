@@ -44,6 +44,9 @@ class Inventory:
         pred = lambda item: item["category"] == category
         items_in_category = self._filter_items_by(pred)
 
+        if not items_in_category:
+            raise ValueError("Cannot find median for category with no items")
+
         prices_and_counts = (
             (item["price"], item["items"]) 
             for item in items_in_category
