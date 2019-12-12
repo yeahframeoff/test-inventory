@@ -22,7 +22,9 @@ class Inventory:
         :return: all the categories ids in the inventory
         """
         pred = lambda item: item["store"] == store
-        return self._filter_items_by(pred)
+        items =  self._filter_items_by(pred)
+
+        return sorted(set(item["category"] for item in items))
 
     def get_item_inventory(self, item_name):
         """
