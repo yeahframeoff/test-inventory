@@ -44,13 +44,16 @@ async def get_median_for_category(request):
             return web.json_response(result)
 
 
-app = web.Application()
-app["inventory"] = Inventory(load_inventory_from_file("inventory.txt"))
-app.add_routes([
-    web.get('/get-categories-for-store/{store_id}', get_categories_for_store),
-    web.get('/get-item-inventory/{item_name}', get_item_inventory),
-    web.get('/get-median-for-category/{category}', get_median_for_category),
-])
+def create_app(inventory_file_path="inventory.txt"):
+    app = web.Application()
+    app["inventory"] = Inventory(load_inventory_from_file(inventory_file_path))
+    app.add_routes([
+        web.get('/get-categories-for-store/{store_id}', get_categories_for_store),
+        web.get('/get-item-inventory/{item_name}', get_item_inventory),
+        web.get('/get-median-for-category/{category}', get_median_for_category),
+    ])
+    return app
 
 if __name__ == '__main__':
+    app = create_app()
     web.run_app(app)
